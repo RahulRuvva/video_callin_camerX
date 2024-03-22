@@ -60,7 +60,7 @@ jobs:
           path: target/*.jar      
       
     - name: Slack Notification
-      uses: act10ns/slack@v1
+      uses: actions/slack@v3  # Upgraded Slack action
       with: 
         status: ${{ job.status }}
         channel: 'dummy'
