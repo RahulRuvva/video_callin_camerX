@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Notify Commit or Push
-      if: github.event_name == 'push' or github.event_name == 'commit'
+      if: github.event_name == 'push' || github.event_name == 'commit'
       uses: actions/slack-action@v3
       with:
         status: starting
