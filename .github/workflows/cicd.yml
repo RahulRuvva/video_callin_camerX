@@ -14,7 +14,7 @@ jobs:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     steps:
     - name: Notify Starting Docker Build
-      uses: act10ns/slack@v2
+      uses: act10ns/slack@v3
       with:
         status: starting
         channel: 'dummy'
@@ -28,7 +28,7 @@ jobs:
         docker build -t my-docker-repo .
 
     - name: Notify Build Status
-      uses: act10ns/slack@v2
+      uses: act10ns/slack@v3
       with:
         channel: 'dummy'
         status: ${{ job.status }}
