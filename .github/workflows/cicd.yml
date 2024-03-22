@@ -1,26 +1,18 @@
-name: cicd-workflow with slack integration
-on:
-  push:
-    branches: [ "main" ]
+name: GitHub Actions Demo
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
 jobs:
-  job1:
+  Explore-GitHub-Actions:
     runs-on: ubuntu-latest
-    env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     steps:
-    - uses: act10ns/slack@v2
-      with:
-        status: starting
-        channel: 'dummy'
-        message: Starting Docker Build image...
-      if: always()
-    - uses: actions/checkout@v3
-    - name: Build Docker image
-      run: |
-        docker build -t my-docker-repo .
-    - uses: act10ns/slack@v2
-      with:
-        channel: '#mar-2024-weekday-batch'
-        status: ${{ job.status }}
-        steps: ${{ toJson(steps) }}
-      if: always()
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - run: echo "🍏 This job's status is ${{ job.status }}."
