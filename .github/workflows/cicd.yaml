@@ -8,13 +8,13 @@ jobs:
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     steps:
-    - uses: act10ns/slack@v2
+    - uses: act10ns/slack@v2/push
       with:
         status: starting
         channel: 'dummy'
         message: Starting Docker Build image...
       if: always()
-    - uses: actions/push
+    - uses: actions/slack@v2/push
     - name: Build Docker image
       run: |
         docker build -t my-docker-repo .
