@@ -18,11 +18,39 @@ jobs:
     - name: Notify Starting Docker Build
       run: |
         curl -X POST -H 'Content-type: application/json' --data '{"text":"Starting Docker Build image..."}' $SLACK_WEBHOOK_URL
-    - name: Checkout code
-      uses: actions/checkout@v4
-    - name: Build Docker image
-      run: |
-        docker build -t my-docker-repo .
-    - name: Notify Build Status
-      run: |
-        curl -X POST -H 'Content-type: application/json' --data '{"text":"Build Status: ${{ job.status }}"}' $SLACK_WEBHOOK_URL
+
+  job2:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Notify Commit or Push
+      if: github.event_name == 'push'
+      uses: actions/slack-action@v3
+      with:
+        status: starting
+        fields: repo,message,commit,author,ref
+        channel: ${{ env.SLACK_CHANNEL }}
+        author_name: "GitHub"
+        author_icon: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+        color: "#36a64f"
+        username: "GitHub Actions"
+        icon_url: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+        text: "New commit or push detected on branch ${{ github.ref }} in repository ${{ github.repository }}"
+        actions: view_in_repo, view_in_workflow
+
+  job3:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Notify Pull Request
+      if: github.event_name == 'pull_request'
+      uses: actions/slack-action@v3
+      with:
+        status: starting
+        fields: repo,action,number,author,ref
+        channel: ${{ env.SLACK_CHANNEL }}
+        author_name: "GitHub"
+        author_icon: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+        color: "#36a64f"
+        username: "GitHub Actions"
+        icon_url: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+        text: "New pull request #${{ github.event.pull_request.number }} opened on branch ${{ github.event.pull_request.head.ref }} in repository ${{ github.repository }}"
+        actions: view_in_repo, view_in_workflow
